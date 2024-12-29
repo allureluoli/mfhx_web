@@ -1,0 +1,41 @@
+name: Build and Publish Rust Project
+
+on:
+  push:
+    branches:
+      - main
+  # 如果你想手动触发工作流，可以用以下配置
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout code
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Rust
+    - name: Set up Rust
+      uses: actions/setup-rust@v1
+      with:
+        rust-version: stable # 或者你可以指定特定的 Rust 版本
+
+    # Step 4: Build the project (Release mode)
+    - name: Build project
+      run: cargo build --release
+
+    # Step 5: Create release assets
+    - name: Prepare release asset
+      run: |
+        mkdir -p release
+        cp target/release/mfhx_web release/ # 替换 "my_project" 为你的二进制文件名称
+
+    # Step 6: Upload release to GitHub
+    - name: Upload Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: release/my_project
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
