@@ -56,7 +56,7 @@ async fn icu_member_info(conn: web::Data<Arc<Mutex<Connection>>>, req: HttpReque
     }
 }
 
-// get 通过uid得到成员信息
+// 获得成员信息的数据数量
 #[get("/api/post_number")]
 async fn post_number(conn: web::Data<Arc<Mutex<Connection>>>) -> impl Responder {
 
