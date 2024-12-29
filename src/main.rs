@@ -8,8 +8,7 @@ use tokio::sync::Mutex;
 mod  data_structure;
 mod data_base;
 
-use data_structure::MemberInfo;
-use data_base::query_data;
+use data_base::{query_data,query_id_data,info_number};
 
 // 几个 api
 #[get("/")]
@@ -30,10 +29,6 @@ async fn all_member(conn: web::Data<Arc<Mutex<Connection>>>) -> impl Responder {
 
     // 共享数据库连接
     let conn = conn.lock().await;
-
-    // HttpResponse::Ok()
-    //     .content_type("application/json")  // 设置为 JSON 格式
-    //     .json(member_info)  // 返回 JSON 响应
     match query_data(&conn) {
         Ok(member_info) => HttpResponse::Ok().json(member_info),
         Err(err) => {
@@ -47,21 +42,38 @@ async fn all_member(conn: web::Data<Arc<Mutex<Connection>>>) -> impl Responder {
 
 // get 通过uid得到成员信息
 #[get("/api/member/{id}")]
-async fn icu_member_info() -> impl Responder {
-    let member_info_use = MemberInfo {
-        id: 0,
-        name: String::from("柒灵子"),
-        position: String::from("主催"),
-        avatar: String::from("https://hifuufantasy.club/icu_avatar?id=0"),
-        introduce: String::from("这个人是社团的主催，浙江省湖州人，十七岁是男娘。"),
-    };
-    // let member_info = query_data(conn);
+async fn icu_member_info(conn: web::Data<Arc<Mutex<Connection>>>, req: HttpRequest) -> impl Responder {
+    let id: u32 = req.match_info().query("id").parse().unwrap();
 
-    HttpResponse::Ok()
-        .content_type("application/json")  // 设置为 JSON 格式
-        .json(member_info_use)  // 返回 JSON 响应
+    let conn = conn.lock().await;
+    match query_id_data(&conn, id) {
+        Ok(member_info) => HttpResponse::Ok().json(member_info),
+        Err(err) => {
+            let error_message = format!("{:?}", err);
+            let response = json!({ "error": error_message });
+            HttpResponse::InternalServerError().json(response)
+        }
+    }
 }
 
+// get 通过uid得到成员信息
+#[get("/api/post_number")]
+async fn post_number(conn: web::Data<Arc<Mutex<Connection>>>) -> impl Responder {
+
+
+    let conn = conn.lock().await;
+    match info_number(&conn) {
+        Ok(member_info) => {            
+        let response = json!({ "number": member_info });
+        HttpResponse::Ok().json(response)
+    }
+        Err(err) => {
+            let error_message = format!("{:?}", err);
+            let response = json!({ "error": error_message });
+            HttpResponse::InternalServerError().json(response)
+        }
+    }
+}
 
 // 测试发送中文字符
 #[get("/test")]
@@ -127,6 +139,7 @@ async fn main() -> std::io::Result<()> {
             .service(json_test) // 通过服务注册
             .service(all_member)
             .service(icu_member_info)
+            .service(post_number)
             .route("/hey", web::get().to(manual_hello)) // 手动路由
     })
     .bind(("127.0.0.1", 8080))?
