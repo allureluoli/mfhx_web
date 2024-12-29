@@ -142,7 +142,7 @@ async fn main() -> std::io::Result<()> {
             .service(post_number)
             .route("/hey", web::get().to(manual_hello)) // 手动路由
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("127.0.0.1", 5088))?
     .run()
     .await
 }
