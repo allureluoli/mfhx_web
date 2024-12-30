@@ -1,9 +1,6 @@
-# Changelog
-
-## [Unreleased]
-
-## [0.0.3] - 2024-02-22
-
-- change something
-- add something
-
+## [0.0.4] - 2024-12-30
+### Added
+- AAAA
+- AAAAAAAAAAA
+### Fixed
+- ccccccccccccccccc
