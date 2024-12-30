@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: taiki-e/create-gh-release-action@v1
         with:
-          branch: '*'
+          branch: main
           # (Optional)
           changelog: CHANGELOG.md
           # (Optional) Format of title.
@@ -45,11 +45,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
+      - run: rustup toolchain install stable --profile minimal --no-self-update
+      - uses: Swatinem/rust-cache@v2
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
           # (required) Comma-separated list of binary names (non-extension portion of filename) to build and upload.
           # Note that glob pattern is not supported yet.
-          bin: mfhx_web  #需要添加自己的名称，package.name
+          bin: mfhx_web
           # (optional) On which platform to distribute the `.tar.gz` file.
           # [default value: unix]
           # [possible values: all, unix, windows, none]
@@ -60,4 +62,3 @@ jobs:
           zip: windows
           # (required) GitHub token for uploading assets to GitHub Releases.
           token: ${{ secrets.GITHUB_TOKEN }}
-
