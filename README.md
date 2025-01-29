@@ -36,7 +36,7 @@ GET https://hifuufantasy.club/api/member/1
     "name": "柒灵子",
     "position": "主催",
     "avatar": "https://hifuufantasy.club/icu_avatar/qilingzi.png",
-    "introduce": "这个人是社团的主催，浙江省湖州人，十七岁是男娘。"
+    "introduction": "这个人是社团的主催，浙江省湖州人，十七岁是男娘。"
 }
 ```
 
@@ -45,7 +45,7 @@ GET https://hifuufantasy.club/api/member/1
 - `name`: 成员的名字
 - `position`: 成员的职务
 - `avatar`: 成员的头像 URL
-- `introduce`: 成员的个人介绍
+- `introduction`: 成员的个人介绍
 
 ------
 

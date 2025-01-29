@@ -8,8 +8,8 @@ pub struct MemberInfo {
     pub id: u32,
     pub name: String,
     pub position: String,
-    pub avatar: String,
-    pub introduce: String
+    pub avatar: Vec<u8>,
+    pub introduction: String
 }
 
 // 就是不含介绍的
@@ -18,5 +18,5 @@ pub struct MemberBaseInfo {
     pub id: u32,
     pub name: String,
     pub position: String,
-    pub avatar: String,
+    pub avatar: Vec<u8>,
 }

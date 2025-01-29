@@ -5,7 +5,7 @@ use rusqlite::{Connection, Result};
 
 // 返回全部数据
 pub fn query_data(conn: &Connection) -> Result<Vec<MemberBaseInfo>> {
-    let mut stmt = conn.prepare("SELECT id, name, position, avatar FROM member")?;
+    let mut stmt = conn.prepare("SELECT id, name, position, avatar FROM members")?;
     
     let members = stmt.query_map([], |row| {
         Ok(MemberBaseInfo {
@@ -28,7 +28,7 @@ pub fn query_data(conn: &Connection) -> Result<Vec<MemberBaseInfo>> {
 
 // 通过id 返回数据
 pub fn query_id_data(conn: &Connection, id: u32) -> Result<MemberInfo> {
-    let mut stmt = conn.prepare("SELECT id, name, position, avatar, introduce FROM member WHERE id = ?")?;
+    let mut stmt = conn.prepare("SELECT id, name, position, avatar, introduce FROM members WHERE id = ?")?;
     
     stmt.query_row([id], |row| {
         Ok(MemberInfo {
@@ -36,13 +36,13 @@ pub fn query_id_data(conn: &Connection, id: u32) -> Result<MemberInfo> {
             name: row.get(1)?,
             position: row.get(2)?,
             avatar: row.get(3)?,
-            introduce: row.get(4)?
+            introduction: row.get(4)?
         })
     })
 }
 
 pub fn info_number(conn: &Connection) -> Result<i32> {
-    let mut stmt = conn.prepare("SELECT COUNT(*) FROM member")?;
+    let mut stmt = conn.prepare("SELECT COUNT(*) FROM members")?;
     
     let count: i32 = stmt.query_row([], |row| row.get(0))?;
     Ok(count)

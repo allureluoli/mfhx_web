@@ -80,7 +80,7 @@ async fn post_number(conn: web::Data<Arc<Mutex<Connection>>>) -> impl Responder 
 async fn test() -> impl Responder{
     HttpResponse::Ok()                                                                                                            
     .content_type("text/plain; charset=utf-8")
-    .body("怎么回事呢")
+    .body("怎么回事呢？")
 }
 
 // 测试post
