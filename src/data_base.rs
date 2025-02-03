@@ -24,8 +24,6 @@ pub fn query_data(conn: &Connection) -> Result<Vec<MemberBaseInfo>> {
     Ok(result)
 }
 
-
-
 // 通过id 返回数据
 pub fn query_id_data(conn: &Connection, id: u32) -> Result<MemberInfo> {
     let mut stmt = conn.prepare("SELECT id, name, position, avatar, introduce FROM members WHERE id = ?")?;

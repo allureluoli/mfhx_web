@@ -8,7 +8,7 @@ pub struct MemberInfo {
     pub id: u32,
     pub name: String,
     pub position: String,
-    pub avatar: Vec<u8>,
+    pub avatar: String,
     pub introduction: String
 }
 
@@ -18,5 +18,5 @@ pub struct MemberBaseInfo {
     pub id: u32,
     pub name: String,
     pub position: String,
-    pub avatar: Vec<u8>,
+    pub avatar: String,
 }
